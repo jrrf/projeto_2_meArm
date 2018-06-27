@@ -37,9 +37,9 @@ void loop() {
 void controleBraco(){
 
   if (tarefaRecebida()) {
-    tarefa = Serial.read();
+    tarefa = Serial.read(); //recebe os dados pelo pino 0 (RX)
     
-    if (tarefa == 'P') {
+    if (tarefa == 'P') { //verifica o dado recebido
       Serial.print('P');
       moveParaPonto1();
       liberarEsteira();
@@ -54,7 +54,7 @@ void controleBraco(){
 }
 
 boolean tarefaRecebida(){
-  return (Serial.available() > 0); //se maior que zero, tem tarefa
+  return (Serial.available() > 0); //verifica se chegou algum dado pela serial no pino 0 (RX)
 }
 
 void moveParaPonto1(){
@@ -109,7 +109,7 @@ void posEsteira1(){ //posiciona o braço acima da esteira
 }
 
 void liberarEsteira(){
-  Serial.print('C');
+  Serial.print('C'); //envia dado para a serial, pino 1 (TX)
 }
 
 
