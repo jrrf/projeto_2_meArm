@@ -1,7 +1,7 @@
 /* Projeto Esteira
  * Microcontroladores
  * 27/06/18
- * Ultima Alteração: 27/06/18 - 01h06
+ * Ultima Alteração: 28/06/18 - 14h28
 */
 
 #include "meArm_Adafruit.h"
@@ -35,18 +35,16 @@ void loop() {
 }
 
 void controleBraco(){
-
+  
   if (tarefaRecebida()) {
-    tarefa = Serial.read(); //recebe os dados pelo pino 0 (RX)
+    tarefa = Serial.read(); //recebe o dado informando qual tarefa executar
     
-    if (tarefa == 'P') { //verifica o dado recebido
-      Serial.print('P');
+    if (tarefa == 'P') {    //verifica o dado recebido
       moveParaPonto1();
       liberarEsteira();
     }
     
     else if (tarefa == 'M') {
-      Serial.print('M');
       moveParaPonto2();
       liberarEsteira();
     }
@@ -54,7 +52,11 @@ void controleBraco(){
 }
 
 boolean tarefaRecebida(){
-  return (Serial.available() > 0); //verifica se chegou algum dado pela serial no pino 0 (RX)
+  if(Serial.available() > 0){
+    delay(10); //espera chegar todos os dados
+    return(Serial.read()=='@');
+  }
+  return false;
 }
 
 void moveParaPonto1(){
@@ -109,7 +111,7 @@ void posEsteira1(){ //posiciona o braço acima da esteira
 }
 
 void liberarEsteira(){
-  Serial.print('C'); //envia dado para a serial, pino 1 (TX)
+  Serial.print("@C"); //envia dado para a serial, pino 1 (TX)
 }
 
 
